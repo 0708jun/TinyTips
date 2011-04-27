@@ -1,4 +1,4 @@
-LiveFilter - jQuery Plugin
+TinyTips - jQuery Plugin
 http://www.mikemerritt.me/labs/tiny-tips/
 
 COPYRIGHT (c) 2010-2011 Mike Merritt

@@ -1,114 +1,106 @@
 ﻿/***********************************************************/
-/*                    tinyTips Plugin                      */
-/*                      Version: 1.2 (beta)                */
+/*                    TinyTips Plugin                      */
+/*                      Version: 1.2                       */
 /*                      Mike Merritt                       */
-/*                Updated: Jan 12th, 2011                  */
+/*                Updated: April 26th, 2011                */
 /***********************************************************/
 
-(function($){  
-	$.fn.tinyTips = function (supCont, tipPrefix, animSpeed, delay) {
+(function($) {
+	$.fn.tinyTips = function(options) {
 		
-		// Default config options
-		var config = {
-			prefix: 'light',
+		var defaults = {
 			content: 'title',
-			aSpeed: 300,
-			delay: 300
+			style: 'light'
 		};
 		
-		// Global tinyTip variables and checks
-		var $this;
-		var tText;
-		var tinyTip;
-		var tipCont;
-		if (tipPrefix != undefined) { config.prefix = tipPrefix; } 
-		if (supCont != undefined) { config.content = supCont; }
-		if (animSpeed != undefined) { config.aSpeed = animSpeed; }
-		if (delay != undefined) {config.delay = delay; }
-		var tipName = config.prefix + 'Tip';
-		var tipFrame = '<div class="' + tipName + '"><div class="content"></div><div class="notch">&nbsp;</div></div>';
+		var options = $.extend({}, defaults, options);
+		var markup = '<div id="tinytip" class="' + options.style + '"><div id="tipcontent"></div><div id="tiparrow"></div></div>';
+		var target = $(this);
+		var title;
 		
-		// When we hover over the element that we want the tooltip applied to
-		$(this).hover(function() {
+		target.live({
+			mouseover: function() {
 			
-			// Cache to make this quicker.
-			$this = $(this);
+				if (options.content === 'title') {
+					title = $(this).attr('title');
+					$(this).attr('title', '');
+					
+					createTooltip($(this), title);
+				} else { 
+					createTooltip($(this), options.content);
+				}
 			
-			// Determine what the tooltip should show, set both tipCont and tText to the default title if that is what is supplied, 
-			// and remove it so the default browser tooltip doesn't appear. 
-			// If it's not the default title, set only tipCont to the supplied tooltip content.
-			if (config.content === 'title') {
-				tipCont = tText = $this.attr('title');
-				$this.attr('title', '');
-			} else if (config.content !== 'title') {
-				tipCont = config.content;
+			}, 
+			mouseleave: function() {
+				
+				if (options.content === 'title') {
+					$(this).attr('title', title);
+				}
+				
+				removeTooltip();
 			}
-			
-			// Set a timeout so the tooltip doesn't instantly pop up (causes quirky functionality if this is not set.)
-			hoverDelay = setTimeout(createTooltip, 300)
-			
-		}, function() {
-			
-			// If the mouse leaves the element before the timeout is complete, cancel the timeout that creates the tooltip.
-			clearTimeout(hoverDelay);
-			
-			// Destroy the active tooltip.
-			destroyTooltip();
-			
 		});
 		
-		// Creates the tooltip
-		function createTooltip() {
-			// Inject the markup for the tooltip into the page and
-			// set the tooltip global to the current markup and then hide it.
-			$('body').append(tipFrame);
-			var divTip = 'div.'+tipName;
-			tinyTip = $(divTip);
-			tinyTip.hide();
+		function createTooltip(element, tipContent) {
 			
-			$(divTip + ' .content').html(tipCont);
+			$('html').append(markup);
+			$('#tinytip #tipcontent').append(tipContent);
 			
-			// Set the "notch" to the center of the tooltip
-			var tipHeight = tinyTip.outerHeight();
-			var tipWidth = tinyTip.outerWidth();
-			var notch = tinyTip.find('.notch');
-			var notchPosX = ((tipWidth/2)-10)+'px';
-			var notchPosY = tipHeight+'px';
-			notch.css('left', notchPosX);
-			notch.css('top', notchPosY);
+			// Data for positioning the tooltip
+			var targetPos = element.position();
+			var targetPosX = targetPos.left;
+			var targetPosY = targetPos.top;
+			var targetX = element.outerWidth();
+			var targetY = element.outerHeight();
 			
-			// Offsets so that the tooltip is centered over the element it is being applied to but
-			// raise it up above the element so it isn't covering it.
-			var yOffset = tipHeight + 15;
-			var xOffset = (tipWidth / 2) - ($this.width() / 2);
+			var winX = $(window).width();
+			var winY = $(window).height();
+			var winOffsetY = $(window).scrollTop();
 			
-			// Grab the coordinates for the element with the tooltip and make a new copy
-			// so that we can keep the original un-touched.
-			var pos = $this.offset();
-			var nPos = pos;
+			var tipX = $('#tinytip').outerWidth();
+			var tipY = $('#tinytip').outerHeight();
+			var arrowX = $('#tinytip #tiparrow').outerWidth();
 			
-			// Add the offsets to the tooltip position
-			nPos.top = pos.top - yOffset;
-			nPos.left = pos.left - xOffset;
+			var winCheckY = (targetPosY - tipY) - winOffsetY;
 			
-			// Make sure that the tooltip has absolute positioning and a high z-index, 
-			// then place it at the correct spot and fade it in.
-			tinyTip.css('position', 'absolute').css('z-index', '500');
-			tinyTip.css(nPos).fadeIn(config.aSpeed);
+			if (winCheckY >= 0) {
+				
+				// If the tooltip should be on top
+				var arrowPosX = (tipX / 2) - (arrowX / 2);
+				var arrowPosY = tipY;
+			
+				var finalPosX = (targetPosX + (targetX / 2)) - (tipX / 2);
+				var finalPosY = targetPosY - (tipY + 3);
+				
+				$('#tinytip #tiparrow').css({top: arrowPosY+'px', left: arrowPosX+'px'});
+				$('#tinytip').hide().css({top: finalPosY+'px', left: finalPosX+'px'});
+				$('#tinytip').fadeIn(400);
+				
+			} else if (winCheckY <= 0) {
+				
+				// If the tooltip should be on bottom
+				var arrowPosX = (tipX / 2) - (arrowX / 2);
+				var arrowPosY = -14;
+				
+				var finalPosX = (targetPosX + (targetX / 2)) - (tipX / 2);
+				var finalPosY = (targetPosY + targetY) + (tipY - 11);
+				
+				$('#tinytip #tiparrow').css({
+					top: arrowPosY+'px', 
+					left: arrowPosX+'px',
+					'border-color': 'transparent transparent #e2e2e2 transparent'
+				});
+				$('#tinytip').hide().css({top: finalPosY+'px', left: finalPosX+'px'});
+				$('#tinytip').fadeIn(400);
+				
+			}			
+			
 		}
 		
-		// Destroys the tooltip
-		function destroyTooltip() {
-			
-			$this.attr('title', tText);
-		
-			// Fade the tooltip out once the mouse moves away and then remove it from the DOM.
-			tinyTip.fadeOut(config.aSpeed, function() {
-				$(this).remove();
-			});
-			
+		function removeTooltip() {
+			$('#tinytip').hide().remove();
 		}
 		
 	}
-
+	
 })(jQuery);

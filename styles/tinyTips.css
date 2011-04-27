@@ -1,7 +1,7 @@
 ﻿@charset "utf-8";
 
-html							{ font-family: "Lucida Sans Unicode"; font-size: 14px; line-height: 21px; color: #f1f1f1; background: #0b0b0b; }
-body							{  }
+html							{ margin: 0px; padding: 0px; font-family: "Lucida Sans Unicode"; font-size: 14px; line-height: 21px; color: #f1f1f1; background: #0b0b0b; }
+body							{ margin: 0px; padding: 0px; position: relative; }
 p								{ color: #616161; }
 a								{ color: #f1f1f1; }
 img.tTip						{ margin: 8px 15px 8px 0px; float: left; }
@@ -9,35 +9,12 @@ h1								{ text-align: center; line-height: 15px; padding: 0px 0px 20px 0px; le
 h1.massive						{ font-size: 72px; line-height: 10px; padding: 0px; letter-spacing: -6px; color: #f4c20a; }
 #demo_wrapper					{ width: 600px; margin: 30px auto 0px auto; }
 
-.lightTip						{ position: relative; }
+
+
+#tinytip						{ position: absolute; top: 0px; left: 0px; display: block; z-index: 50; }
+#tinytip #tipcontent			{ padding: 1px 6px 1px 6px; border: 4px solid #e2e2e2; max-width: 400px; background: #ffffff; color: #000000; font-size: 12px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+#tinytip #tiparrow				{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #e2e2e2 transparent transparent transparent; border-style: solid; border-width: 7px; }
+
+/*.lightTip						{ position: relative; }
 .lightTip .content				{ max-width: 500px; padding: 10px; border: 6px solid #e2e2e2; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #ffffff; color: #020202; }
-.lightTip .notch				{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #e2e2e2 transparent transparent transparent; border-style: solid; border-width: 8px; }
-
-.yellowTip						{  }
-.yellowTip .content				{ width: 310px; padding: 10px; border: 6px solid #f9e98e; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #fbf7aa; color: #020202; }
-.yellowTip .notch				{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #f9e98e transparent transparent transparent; border-style: solid; border-width: 8px; }
-
-.orangeTip						{  }
-.orangeTip .content				{ width: 310px; padding: 10px; border: 6px solid #f9cd8e; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #fbe3aa; color: #020202; }
-.orangeTip .notch				{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #f9cd8e transparent transparent transparent; border-style: solid; border-width: 8px; }
-
-.redTip							{  }
-.redTip .content				{ width: 310px; padding: 10px; border: 6px solid #ce6f6f; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #f79992; color: #020202; }
-.redTip .notch					{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #ce6f6f transparent transparent transparent; border-style: solid; border-width: 8px; }
-
-.greenTip						{  }
-.greenTip .content				{ width: 310px; padding: 10px; border: 6px solid #a9db66; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #cae8a2; color: #020202; }
-.greenTip .notch				{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #a9db66 transparent transparent transparent; border-style: solid; border-width: 8px; }
-
-.blueTip						{  }
-.blueTip .content				{ width: 310px; padding: 10px; border: 6px solid #36a4d9; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #90d8f0; color: #020202; }
-.blueTip .notch					{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #36a4d9 transparent transparent transparent; border-style: solid; border-width: 8px; }
-
-.purpleTip						{  }
-.purpleTip .content				{ width: 310px; padding: 10px; border: 6px solid #8671de; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #a290f0; color: #020202; }
-.purpleTip .notch				{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #8671de transparent transparent transparent; border-style: solid; border-width: 8px; }
-
-.darkTip						{  }
-.darkTip .content				{ width: 310px; padding: 10px; border: 6px solid #303030; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #505050; color: #f8f8f8; }
-.darkTip .notch					{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #303030 transparent transparent transparent; border-style: solid; border-width: 8px; }
-
+.lightTip .notch				{ width: 0px; height: 0px; position: absolute; top: 0px; left: 0px; z-index: 100; font: 0px/0px sans-serif; border-color: #e2e2e2 transparent transparent transparent; border-style: solid; border-width: 8px; }*/

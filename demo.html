@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>TinyTips 1.2</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="styles/tinyTips.css" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.tinyTips.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			$('a.tTip').tinyTips();
+			$('a.imgTip').tinyTips({
+				content: '<img src="images/demo-image.jpg" /><br />You can even put images or any other markup in the tooltips.',
+				style: 'yellow'
+			});
+			$('img.tTip').tinyTips({ style: 'green' });
+			$('h1.tagline').tinyTips({
+				content: 'TinyTips are totally awesome!', 
+				style: 'blue'
+			});
+		});
+		</script>
+	</head>
+	<body>
+		<div id="demo_wrapper">
+			<h1 class="massive">TinyTips</h1>
+			<h1 class="tagline">Super-lightweight jQuery Tooltips.</h1>
+			<p><img class="tTip" src="images/demo-image.jpg" title="Look at me, I'm a frog!" />Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+			<a class="tTip" href="#" title="This tooltip is using the title of this anchor tag.">Aenean ut nunc metus</a>, gravida tincidunt libero. 
+			Proin molestie risus at odio luctus condimentum. Sed molestie bibendum orci a faucibus. Vivamus vel lorem ut augue laoreet cursus. 
+			Maecenas vestibulum nibh non nibh viverra posuere. Sed <a class="tTip" href="#" title="This one is also using the title.">tristique eleifend</a> elit sit amet varius. 
+			Curabitur augue purus, molestie eu hendrerit a, sollicitudin nec eros. Aliquam vitae pellentesque lorem. Vestibulum leo <a class="imgTip" href="#">tortor</a>, 
+			luctus sed varius eu, ultrices ac sapien. Nulla pretium est eget mi 
+			<a class="tTip" href="#" title="How about a really long one so we can test out positioning so it doesn't overlap the element the tooltip is for. 
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget purus a orci consequat congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+			Suspendisse porttitor scelerisque leo, ut elementum nisi fermentum ac. Etiam mauris tellus, ornare sit amet venenatis at, vehicula vitae purus. 
+			Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.">dignissim</a> sed 
+			tincidunt eros porta. In ligula mauris, aliquam quis tempor quis, consectetur a erat. Nulla non justo 
+			pellentesque dui elementum pharetra nec eu magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+		</div>
+	</body>
+</html>
